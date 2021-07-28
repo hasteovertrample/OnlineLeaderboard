@@ -5,9 +5,12 @@ using UnityEngine;
 public class LeaderboardController : MonoBehaviour
 {
     public InputField MemberID, PlayerScore;
+    public int memberID;
     public int ID;
     int maxScores = 5;
     public Text[] Entries;
+    public rnd = Random();
+
 
 
     private void Start()
@@ -62,7 +65,7 @@ public class LeaderboardController : MonoBehaviour
     
     public void SubmitScore()
     {
-        LootLockerSDKManager.SubmitScore(random.range.text, int.Parse(PlayerScore.text), ID, (response) =>
+        LootLockerSDKManager.SubmitScore(MemberID.text, int.Parse(PlayerScore.text), ID, (response) =>
         {
             if (response.success)
             {
