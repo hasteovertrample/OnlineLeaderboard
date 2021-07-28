@@ -29,36 +29,40 @@ public class LeaderboardController : MonoBehaviour
     {
         LootLockerSDKManager.GetScoreList(ID, maxScores, (response) =>
         {
+
+
             if (response.success)
             {
-                if (response.success)
+                LootLocker.Requests.LootLockerLeaderboardMember[] scores = response.items;
+
+
+                for (int i = 0; i < scores.Length; i++)
                 {
-                    LootLockerLeaderboardMember[] scores = response.items;
+                    Entries[i].text = (scores[i].rank + ".   " + scores[i].score);
+                }
 
-                    for(int i = 0; i < scores.Length; i++)
+                if (scores.Length < maxScores)
+                {
+                    for (int i = scores.Length; i < maxScores; i++)
                     {
-                        Entries[i].text = (scores[i].rank + ".   " + scores[i].score);
-                    }
-
-                    if(scores.Length < maxScores)
-                    {
-                        for(int i = scores.Length; i < maxScores; i++)
-                        {
-                            Entries[i].text = (i + 1).ToString() + ".  none";
-                        }    
+                        Entries[i].text = (i + 1).ToString() + ".  none";
                     }
                 }
-                else
-                {
-                    Debug.Log("Failed");
-                } 
             }
-        });
+            else
+            {
+                Debug.Log("Failed");
+            }
 
+
+
+        });
     }
+
+    
     public void SubmitScore()
     {
-        LootLockerSDKManager.SubmitScore(MemberID.text, int.Parse(PlayerScore.text), ID, (response) =>
+        LootLockerSDKManager.SubmitScore(random.range.text, int.Parse(PlayerScore.text), ID, (response) =>
         {
             if (response.success)
             {
